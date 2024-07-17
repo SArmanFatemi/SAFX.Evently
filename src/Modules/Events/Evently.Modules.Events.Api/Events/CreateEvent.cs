@@ -16,6 +16,7 @@ public static class CreateEvent
 					Id = Guid.NewGuid(),
 					Title = request.Title,
 					Description = request.Description,
+					Location = request.Location,
 					StartAtUtc = request.StartAtUtc,
 					EndAtUtc = request.EndAtUtc,
 					Status = EventStatus.Draft
@@ -29,5 +30,5 @@ public static class CreateEvent
 			.WithTags(Tags.Events);
 	}
 
-	internal sealed record Request(string Title, string Description, DateTime StartAtUtc, DateTime EndAtUtc);
+	internal sealed record Request(string Title, string Description, string Location, DateTime StartAtUtc, DateTime EndAtUtc);
 }
