@@ -10,7 +10,7 @@ public sealed class Event
 
 	public string Location { get; set; }
 
-	public DateTime StartAtUsc { get; set; }
+	public DateTime StartAtUtc { get; set; }
 
 	public DateTime? EndAtUtc { get; set; }
 

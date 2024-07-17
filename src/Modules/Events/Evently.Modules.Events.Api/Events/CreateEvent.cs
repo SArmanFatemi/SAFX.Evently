@@ -16,7 +16,7 @@ public static class CreateEvent
 					Id = Guid.NewGuid(),
 					Title = request.Title,
 					Description = request.Description,
-					StartAtUsc = request.StartAtUtc,
+					StartAtUtc = request.StartAtUtc,
 					EndAtUtc = request.EndAtUtc,
 					Status = EventStatus.Draft
 				};
