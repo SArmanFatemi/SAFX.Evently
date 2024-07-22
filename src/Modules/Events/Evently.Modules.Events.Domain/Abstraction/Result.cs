@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Evently.Modules.Events.Domain.Abstraction.Errors;
 
 namespace Evently.Modules.Events.Domain.Abstraction;
 
