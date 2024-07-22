@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Evently.Modules.Events.Presentation.Events;
+namespace Evently.Modules.Events.Presentation.Events.Endpoints;
 
-internal static class GetEvent
+internal static class GetEventEndpoint
 {
-	public static void MapEndpoint(IEndpointRouteBuilder app)
+	public static void Map(IEndpointRouteBuilder app)
 	{
-		app.MapGet("events/{id}", async (Guid id, ISender sender) =>
+		app.MapGet(EventsEndpoints.BasePath + "/{id:guid}", async (Guid id, ISender sender) =>
 			{
 				EventResponse? @event = await sender.Send(new GetEventQuery(id));
 

@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Evently.Modules.Events.Presentation.Events;
+namespace Evently.Modules.Events.Presentation.Events.Endpoints;
 
-internal static class CreateEvent
+internal static class CreateEventEndpoint
 {
-	public static void MapEndpoint(IEndpointRouteBuilder app)
+	public static void Map(IEndpointRouteBuilder app)
 	{
-		app.MapPost("evnents", async (Request request, ISender sender) =>
+		app.MapPost(EventsEndpoints.BasePath, async (Request request, ISender sender) =>
 			{
 				CreateEventCommand command = new(
 					request.Title,
