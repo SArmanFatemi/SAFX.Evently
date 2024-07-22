@@ -1,4 +1,4 @@
-﻿namespace Evently.Modules.Events.Domain.Abstraction.Errors;
+﻿namespace Evently.Modules.Events.Domain.Abstractions.Errors;
 
 public enum ErrorType
 {
