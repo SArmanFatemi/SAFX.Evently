@@ -1,5 +1,7 @@
+using Evently.Modules.Events.Application.Abstractions.Clock;
 using Evently.Modules.Events.Application.Abstractions.Data;
 using Evently.Modules.Events.Domain.Events;
+using Evently.Modules.Events.Infrastructure.Clock;
 using Evently.Modules.Events.Infrastructure.Database;
 using Evently.Modules.Events.Infrastructure.Database.Data;
 using Evently.Modules.Events.Infrastructure.Events;
@@ -43,6 +45,8 @@ public static class EventsModule
 			throw new NullReferenceException("Connection string is not found in the configuration");
 		}
 
+		services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
+		
 		NpgsqlDataSource dataSource = new NpgsqlDataSourceBuilder(connectionString).Build();
 		services.TryAddSingleton(dataSource);
 
