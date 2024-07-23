@@ -1,6 +1,6 @@
 ﻿using Evently.Modules.Events.Domain.Abstractions;
 
-namespace Evently.Modules.Events.Domain.TicketTypes;
+namespace Evently.Modules.Events.Domain.TicketTypes.DomainEvents;
 
 public sealed class TicketTypePriceChangedDomainEvent(Guid ticketTypeId, decimal price) : DomainEvent
 {
