@@ -1,3 +1,13 @@
-namespace Evently.Modules.Events.Application.Events.GetEvent;
+﻿namespace Evently.Modules.Events.Application.Events.GetEvent;
 
-public record EventResponse(Guid Id, string Title, string Description, string Location, DateTime StartAtUtc, DateTime? EndAtUtc);
+public sealed record EventResponse(
+    Guid Id,
+    Guid CategoryId,
+    string Title,
+    string Description,
+    string Location,
+    DateTime StartsAtUtc,
+    DateTime? EndsAtUtc)
+{
+    public List<TicketTypeResponse> TicketTypes { get; } = [];
+}
