@@ -1,4 +1,4 @@
-﻿using Evently.Modules.Events.Application.Events.GetEvent;
+﻿using Evently.Modules.Events.Application.Events.GetEvents;
 using Evently.Modules.Events.Domain.Abstractions;
 using Evently.Modules.Events.Presentation.Abstractions.Endpoints;
 using Evently.Modules.Events.Presentation.ApiResults;
@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Evently.Modules.Events.Presentation.Events.Endpoints;
 
-internal class GetEventEndpoint : IEndpoint
+internal class GetEventsEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {
-        app.MapGet(EventEndpoints.BasePath + "/{id}", async (Guid id, ISender sender) =>
+        app.MapGet(EventEndpoints.BasePath, async (ISender sender) =>
         {
-            Result<EventResponse> result = await sender.Send(new GetEventQuery(id));
+            Result<IReadOnlyCollection<EventResponse>> result = await sender.Send(new GetEventsQuery());
 
             return result.Match(Results.Ok, ApiResults.ApiResults.Problem);
         })
