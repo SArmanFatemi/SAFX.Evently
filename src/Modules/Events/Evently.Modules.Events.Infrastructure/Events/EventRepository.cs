@@ -1,12 +1,18 @@
-using Evently.Modules.Events.Domain.Events;
+﻿using Evently.Modules.Events.Domain.Events;
 using Evently.Modules.Events.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Evently.Modules.Events.Infrastructure.Events;
 
-public class EventRepository(EventDbContext dbContext) : IEventRepository
+internal sealed class EventRepository(EventDbContext context) : IEventRepository
 {
+	public async Task<Event?> GetAsync(Guid id, CancellationToken cancellationToken = default)
+	{
+		return await context.Events.SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
+	}
+
 	public void Insert(Event @event)
 	{
-		dbContext.Events.Add(@event);
+		context.Events.Add(@event);
 	}
 }
