@@ -1,5 +1,4 @@
-﻿using Evently.Modules.Events.Domain.Abstractions;
-using Evently.Modules.Events.Domain.Abstractions.Errors;
+﻿using Evently.Modules.Events.Domain.Abstractions.Errors;
 
 namespace Evently.Modules.Events.Application.Abstractions.Exceptions;
 
