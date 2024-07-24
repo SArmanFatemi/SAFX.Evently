@@ -9,7 +9,7 @@ public static class MigrationExtensions
 	public static void ApplyDatabaseMigrations(this IApplicationBuilder app)
 	{
 		using IServiceScope scope = app.ApplicationServices.CreateScope();
-		scope.ApplyMigration<EventDbContext>();
+		scope.ApplyMigration<EventsDbContext>();
 	}
 
 	private static void ApplyMigration<TDbContext>(this IServiceScope scope)

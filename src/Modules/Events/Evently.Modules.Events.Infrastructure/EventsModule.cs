@@ -56,7 +56,7 @@ public static class EventsModule
 
 		services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-		services.AddDbContext<EventDbContext>(options =>
+		services.AddDbContext<EventsDbContext>(options =>
 			options
 				.UseNpgsql(
 					databaseConnectionString,
@@ -66,7 +66,7 @@ public static class EventsModule
 				.AddInterceptors());
 
 		// Add Unit of work and repositories
-		services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<EventDbContext>());
+		services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<EventsDbContext>());
 
 		services.AddScoped<IEventRepository, EventRepository>();
 		services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();

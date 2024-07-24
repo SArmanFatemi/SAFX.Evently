@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Evently.Modules.Events.Infrastructure.Database;
 
-public sealed class EventDbContext(DbContextOptions<EventDbContext> options) : DbContext(options), IUnitOfWork
+public sealed class EventsDbContext(DbContextOptions<EventsDbContext> options) : DbContext(options), IUnitOfWork
 {
 	internal DbSet<Event> Events { get; set; } = null!;
 	
