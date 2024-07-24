@@ -5,7 +5,9 @@ using Evently.Modules.Events.Infrastructure.Clock;
 using Evently.Modules.Events.Infrastructure.Database;
 using Evently.Modules.Events.Infrastructure.Database.Data;
 using Evently.Modules.Events.Infrastructure.Events;
+using Evently.Modules.Events.Presentation.Categories;
 using Evently.Modules.Events.Presentation.Events;
+using Evently.Modules.Events.Presentation.TicketTypes;
 using FluentValidation;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,9 @@ public static class EventsModule
 {
 	public static void MapEndpoint(IEndpointRouteBuilder app)
 	{
-		EventsEndpoints.MapEndpoints(app);
+		TicketTypeEndpoints.MapEndpoints(app);
+		CategoryEndpoints.MapEndpoints(app);
+		EventEndpoints.MapEndpoints(app);
 	}
 
 	public static IServiceCollection AddEventsModule(this IServiceCollection services, IConfiguration configuration)
