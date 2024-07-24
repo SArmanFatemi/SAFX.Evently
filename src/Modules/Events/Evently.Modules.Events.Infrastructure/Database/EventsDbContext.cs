@@ -1,3 +1,4 @@
+using System.Reflection;
 using Evently.Modules.Events.Application.Abstractions.Data;
 using Evently.Modules.Events.Domain.Categories;
 using Evently.Modules.Events.Domain.Events;
@@ -17,5 +18,7 @@ public sealed class EventsDbContext(DbContextOptions<EventsDbContext> options) :
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.HasDefaultSchema(Schemas.Events);
+		
+		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 	}
 }
