@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Evently.Modules.Events.Presentation.TicketTypes.Endpoints;
 
-internal class ChangeTicketTypePriceEndpoint : IEndpoint
+internal sealed class ChangeTicketTypePriceEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {
