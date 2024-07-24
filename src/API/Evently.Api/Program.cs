@@ -17,5 +17,5 @@ if (app.Environment.IsDevelopment())
 	app.ApplyDatabaseMigrations();
 }
 
-EventsModule.MapEndpoint(app);
+EventsModule.MapEndpoints(app);
 await app.RunAsync();
