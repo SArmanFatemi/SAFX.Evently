@@ -11,19 +11,19 @@ namespace Evently.Modules.Events.Presentation.TicketTypes.Endpoints;
 
 internal sealed class ChangeTicketTypePriceEndpoint : IEndpoint
 {
-    public static void Map(IEndpointRouteBuilder app)
-    {
-        app.MapPut(TicketTypeEndpoints.BasePath + "/{id}/price", async (Guid id, Request request, ISender sender) =>
-            {
-                Result result = await sender.Send(new UpdateTicketTypePriceCommand(id, request.Price));
+	public static void Map(IEndpointRouteBuilder app)
+	{
+		app.MapPut(TicketTypeEndpoints.BasePath + "/{id}/price", async (Guid id, Request request, ISender sender) =>
+			{
+				Result result = await sender.Send(new UpdateTicketTypePriceCommand(id, request.Price));
 
-                return result.Match(Results.NoContent, ApiResults.ApiResults.Problem);
-            })
-            .WithTags(Tags.TicketTypes);
-    }
+				return result.Match(Results.NoContent, ApiResults.ApiResults.Problem);
+			})
+			.WithTags(Tags.TicketTypes);
+	}
 
-    internal sealed class Request
-    {
-        public decimal Price { get; init; }
-    }
+	internal sealed class Request
+	{
+		public decimal Price { get; init; }
+	}
 }

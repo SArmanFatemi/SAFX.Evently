@@ -11,32 +11,32 @@ namespace Evently.Modules.Events.Presentation.TicketTypes.Endpoints;
 
 internal sealed class CreateTicketTypeEndpoint : IEndpoint
 {
-    public static void Map(IEndpointRouteBuilder app)
-    {
-        app.MapPost("ticket-types", async (Request request, ISender sender) =>
-        {
-            Result<Guid> result = await sender.Send(new CreateTicketTypeCommand(
-                request.EventId,
-                request.Name,
-                request.Price,
-                request.Currency,
-                request.Quantity));
+	public static void Map(IEndpointRouteBuilder app)
+	{
+		app.MapPost(TicketTypeEndpoints.BasePath, async (Request request, ISender sender) =>
+			{
+				Result<Guid> result = await sender.Send(new CreateTicketTypeCommand(
+					request.EventId,
+					request.Name,
+					request.Price,
+					request.Currency,
+					request.Quantity));
 
-            return result.Match(Results.Ok, ApiResults.ApiResults.Problem);
-        })
-        .WithTags(Tags.TicketTypes);
-    }
+				return result.Match(Results.Ok, ApiResults.ApiResults.Problem);
+			})
+			.WithTags(Tags.TicketTypes);
+	}
 
-    internal sealed class Request
-    {
-        public Guid EventId { get; init; }
+	internal sealed class Request
+	{
+		public Guid EventId { get; init; }
 
-        public string Name { get; init; }
+		public string Name { get; init; }
 
-        public decimal Price { get; init; }
+		public decimal Price { get; init; }
 
-        public string Currency { get; init; }
+		public string Currency { get; init; }
 
-        public decimal Quantity { get; init; }
-    }
+		public decimal Quantity { get; init; }
+	}
 }

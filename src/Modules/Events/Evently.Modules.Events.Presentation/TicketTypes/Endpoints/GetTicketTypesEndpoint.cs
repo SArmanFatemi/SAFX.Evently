@@ -12,15 +12,15 @@ namespace Evently.Modules.Events.Presentation.TicketTypes.Endpoints;
 
 internal sealed class GetTicketTypesEndpoint : IEndpoint
 {
-    public static void Map(IEndpointRouteBuilder app)
-    {
-        app.MapGet("ticket-types", async (Guid eventId, ISender sender) =>
-        {
-            Result<IReadOnlyCollection<TicketTypeResponse>> result = await sender.Send(
-                new GetTicketTypesQuery(eventId));
+	public static void Map(IEndpointRouteBuilder app)
+	{
+		app.MapGet(TicketTypeEndpoints.BasePath, async (Guid eventId, ISender sender) =>
+			{
+				Result<IReadOnlyCollection<TicketTypeResponse>> result = await sender.Send(
+					new GetTicketTypesQuery(eventId));
 
-            return result.Match(Results.Ok, ApiResults.ApiResults.Problem);
-        })
-        .WithTags(Tags.TicketTypes);
-    }
+				return result.Match(Results.Ok, ApiResults.ApiResults.Problem);
+			})
+			.WithTags(Tags.TicketTypes);
+	}
 }
