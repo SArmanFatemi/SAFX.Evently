@@ -1,8 +1,7 @@
-using Microsoft.AspNetCore.Builder;
+using Evently.Modules.Events.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Evently.Modules.Events.Infrastructure.Database.Extensions;
+namespace Evently.Api.Extensions;
 
 public static class MigrationExtensions
 {

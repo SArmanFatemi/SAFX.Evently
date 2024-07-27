@@ -30,6 +30,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{AB6502
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Common.Application", "src\Common\Evently.Common.Application\Evently.Common.Application.csproj", "{C182B886-AF6A-4E62-B0A3-4BE042B0829A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Common.Domain", "src\Common\Evently.Common.Domain\Evently.Common.Domain.csproj", "{B45DAE8F-A4CC-487F-8F4E-FFA9C369DA04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Common.Infrastructure", "src\Common\Evently.Common.Infrastructure\Evently.Common.Infrastructure.csproj", "{77776002-A1D3-4384-8796-04E1F98A67C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +50,8 @@ Global
 		{3E8CBEEB-C75C-4DB6-976F-5F8220854C33} = {8AE562E6-B434-4F4C-8E6E-00D93003D107}
 		{AB650269-C0D3-448A-AD79-2AFAFA605C3D} = {AE12F278-5ED4-4472-90BF-6F6F9E4E8540}
 		{C182B886-AF6A-4E62-B0A3-4BE042B0829A} = {AB650269-C0D3-448A-AD79-2AFAFA605C3D}
+		{B45DAE8F-A4CC-487F-8F4E-FFA9C369DA04} = {AB650269-C0D3-448A-AD79-2AFAFA605C3D}
+		{77776002-A1D3-4384-8796-04E1F98A67C3} = {AB650269-C0D3-448A-AD79-2AFAFA605C3D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5A6CFBAC-04A9-4C16-8D2B-735C5B290ABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -72,5 +78,13 @@ Global
 		{C182B886-AF6A-4E62-B0A3-4BE042B0829A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C182B886-AF6A-4E62-B0A3-4BE042B0829A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C182B886-AF6A-4E62-B0A3-4BE042B0829A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B45DAE8F-A4CC-487F-8F4E-FFA9C369DA04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45DAE8F-A4CC-487F-8F4E-FFA9C369DA04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45DAE8F-A4CC-487F-8F4E-FFA9C369DA04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45DAE8F-A4CC-487F-8F4E-FFA9C369DA04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77776002-A1D3-4384-8796-04E1F98A67C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77776002-A1D3-4384-8796-04E1F98A67C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77776002-A1D3-4384-8796-04E1F98A67C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77776002-A1D3-4384-8796-04E1F98A67C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

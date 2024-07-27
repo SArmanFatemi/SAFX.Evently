@@ -1,4 +1,4 @@
-﻿namespace Evently.Modules.Events.Domain.Abstractions.Errors;
+﻿namespace Evently.Common.Domain.Abstractions.Errors;
 
 public record Error
 {
