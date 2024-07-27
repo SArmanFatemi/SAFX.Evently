@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Evently.Api.Extensions;
 
-public static class MigrationExtensions
+internal static class MigrationExtensions
 {
 	public static void ApplyDatabaseMigrations(this IApplicationBuilder app)
 	{
