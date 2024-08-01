@@ -1,4 +1,5 @@
-﻿using Evently.Common.Domain.Abstractions;
+﻿using Evently.Common.Application.Caching;
+using Evently.Common.Domain.Abstractions;
 using Evently.Modules.Events.Application.Categories.GetCategories;
 using Evently.Modules.Events.Application.Categories.GetCategory;
 using Evently.Modules.Events.Presentation.Abstractions.Endpoints;
@@ -14,9 +15,22 @@ internal sealed class GetCategoriesEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {
-        app.MapGet(CategoryEndpoints.BasePath, async (ISender sender) =>
+        app.MapGet(CategoryEndpoints.BasePath, async (ISender sender, ICacheService cacheService) =>
         {
+	        IReadOnlyCollection<CategoryResponse> categories = await cacheService
+		        .GetAsync<IReadOnlyCollection<CategoryResponse>>("categories");
+
+	        if (categories is not null)
+	        {
+		        return Results.Ok(categories);
+	        }
+
             Result<IReadOnlyCollection<CategoryResponse>> result = await sender.Send(new GetCategoriesQuery());
+
+            if (result.IsSuccess)
+			{
+	            await cacheService.SetAsync("categories", result.Value);
+            }
 
             return result.Match(Results.Ok, ApiResults.ApiResults.Problem);
         })

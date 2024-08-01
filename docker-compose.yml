@@ -22,7 +22,14 @@ services:
       - ./.containers/db:/var/lib/postgresql/data
     ports:
       - 1001:5432
-        
+
+  redis:
+    image: redis:alpine3.20
+    container_name: redis
+    restart: always
+    ports:
+      - 1002:6379
+
   seq:
     image: datalust/seq:2024.3
     container_name: seq
