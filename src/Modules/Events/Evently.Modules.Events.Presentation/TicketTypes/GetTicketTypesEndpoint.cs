@@ -1,26 +1,26 @@
 ﻿using Evently.Common.Domain.Abstractions;
+using Evently.Common.Presentation.ApiResults;
+using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Application.TicketTypes.GetTicketType;
 using Evently.Modules.Events.Application.TicketTypes.GetTicketTypes;
-using Evently.Modules.Events.Presentation.Abstractions.Endpoints;
-using Evently.Modules.Events.Presentation.ApiResults;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Evently.Modules.Events.Presentation.TicketTypes.Endpoints;
+namespace Evently.Modules.Events.Presentation.TicketTypes;
 
 internal sealed class GetTicketTypesEndpoint : IEndpoint
 {
-	public static void Map(IEndpointRouteBuilder app)
+	public void Map(IEndpointRouteBuilder app)
 	{
-		app.MapGet(TicketTypeEndpoints.BasePath, async (Guid eventId, ISender sender) =>
+		app.MapGet(ModulesConfigurations.TicketTypes.BasePath, async (Guid eventId, ISender sender) =>
 			{
 				Result<IReadOnlyCollection<TicketTypeResponse>> result = await sender.Send(
 					new GetTicketTypesQuery(eventId));
 
-				return result.Match(Results.Ok, ApiResults.ApiResults.Problem);
+				return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
 			})
-			.WithTags(Tags.TicketTypes);
+			.WithTags(ModulesConfigurations.TicketTypes.Tag);
 	}
 }

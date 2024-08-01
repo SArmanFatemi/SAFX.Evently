@@ -2,6 +2,7 @@ using Evently.Api.Extensions;
 using Evently.Api.Middlewares;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
+using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Infrastructure;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -25,7 +26,7 @@ builder.Services.AddApplication([Evently.Modules.Events.Application.AssemblyRefe
 string databaseConnectionString = builder.Configuration.GetConnectionString("Database")!;
 string redisConnectionString = builder.Configuration.GetConnectionString("Cache")!;
 
-builder.Services.AddInfrastructure(databaseConnectionString,redisConnectionString);
+builder.Services.AddInfrastructure(databaseConnectionString, redisConnectionString);
 
 builder.Configuration.AddModuleConfiguration("events");
 
@@ -45,7 +46,7 @@ if (app.Environment.IsDevelopment())
 	app.ApplyDatabaseMigrations();
 }
 
-EventsModule.MapEndpoints(app);
+app.MapEndpoints();
 
 app.MapHealthChecks("healthz", new HealthCheckOptions()
 {

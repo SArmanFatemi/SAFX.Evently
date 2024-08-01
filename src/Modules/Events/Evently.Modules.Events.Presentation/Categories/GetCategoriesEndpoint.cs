@@ -1,21 +1,21 @@
 ﻿using Evently.Common.Application.Caching;
 using Evently.Common.Domain.Abstractions;
+using Evently.Common.Presentation.ApiResults;
+using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Application.Categories.GetCategories;
 using Evently.Modules.Events.Application.Categories.GetCategory;
-using Evently.Modules.Events.Presentation.Abstractions.Endpoints;
-using Evently.Modules.Events.Presentation.ApiResults;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Evently.Modules.Events.Presentation.Categories.Endpoints;
+namespace Evently.Modules.Events.Presentation.Categories;
 
 internal sealed class GetCategoriesEndpoint : IEndpoint
 {
-    public static void Map(IEndpointRouteBuilder app)
+    public void Map(IEndpointRouteBuilder app)
     {
-        app.MapGet(CategoryEndpoints.BasePath, async (ISender sender, ICacheService cacheService) =>
+        app.MapGet(ModulesConfigurations.Categories.BasePath, async (ISender sender, ICacheService cacheService) =>
         {
 	        IReadOnlyCollection<CategoryResponse> categories = await cacheService
 		        .GetAsync<IReadOnlyCollection<CategoryResponse>>("categories");
@@ -32,8 +32,8 @@ internal sealed class GetCategoriesEndpoint : IEndpoint
 	            await cacheService.SetAsync("categories", result.Value);
             }
 
-            return result.Match(Results.Ok, ApiResults.ApiResults.Problem);
+            return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
         })
-        .WithTags(Tags.Categories);
+        .WithTags(ModulesConfigurations.Categories.Tag);
     }
 }
