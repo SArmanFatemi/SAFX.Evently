@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Evently.Common.Domain.Abstractions.Errors;
+using Evently.Common.Domain.Errors;
 
-namespace Evently.Common.Domain.Abstractions;
+namespace Evently.Common.Domain;
 
 public class Result
 {

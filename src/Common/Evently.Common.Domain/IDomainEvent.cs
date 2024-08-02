@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Evently.Common.Domain.Abstractions;
+namespace Evently.Common.Domain;
 
 public interface IDomainEvent : INotification
 {

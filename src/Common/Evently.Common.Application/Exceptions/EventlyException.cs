@@ -1,4 +1,4 @@
-﻿using Evently.Common.Domain.Abstractions.Errors;
+﻿using Evently.Common.Domain.Errors;
 
 namespace Evently.Common.Application.Exceptions;
 

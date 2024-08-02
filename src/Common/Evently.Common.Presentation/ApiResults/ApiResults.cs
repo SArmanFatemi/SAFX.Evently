@@ -1,5 +1,5 @@
-﻿using Evently.Common.Domain.Abstractions;
-using Evently.Common.Domain.Abstractions.Errors;
+﻿using Evently.Common.Domain;
+using Evently.Common.Domain.Errors;
 using Microsoft.AspNetCore.Http;
 
 namespace Evently.Common.Presentation.ApiResults;

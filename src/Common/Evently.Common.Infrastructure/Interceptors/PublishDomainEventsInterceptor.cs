@@ -1,10 +1,10 @@
-using Evently.Common.Domain.Abstractions;
+using Evently.Common.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Evently.Common.Infrastructure.Outbox;
+namespace Evently.Common.Infrastructure.Interceptors;
 
 public sealed class PublishDomainEventsInterceptor(IServiceScopeFactory serviceScopeFactory) : SaveChangesInterceptor
 {
