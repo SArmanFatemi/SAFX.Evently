@@ -1,28 +1,24 @@
+using Evently.Common.Presentation.Endpoints;
+
 namespace Evently.Modules.Events.Presentation;
 
 internal static class ModulesConfigurations
 {
-	internal static ModuleConfiguration Events => new()
+	internal static UseCaseConfiguration Events => new()
 	{
 		Tag = "Events",
 		BasePath = "/events"
 	};
 
-	internal static ModuleConfiguration Categories => new()
+	internal static UseCaseConfiguration Categories => new()
 	{
 		Tag = "Categories",
 		BasePath = "/categories"
 	};
 
-	internal static ModuleConfiguration TicketTypes => new()
+	internal static UseCaseConfiguration TicketTypes => new()
 	{
 		Tag = "TicketTypes",
 		BasePath = "/ticket-types"
 	};
-}
-
-internal sealed class ModuleConfiguration
-{
-	public string Tag { get; init; }
-	public string BasePath { get; init; }
 }
