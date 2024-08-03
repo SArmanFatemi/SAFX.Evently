@@ -1,4 +1,5 @@
 using Evently.Common.Presentation.Endpoints;
+using Evently.Modules.Ticketing.Application.Carts;
 using Evently.Modules.Ticketing.Presentation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,10 +19,12 @@ public static class TicketingModule
 		return services;
 	}
 
+#pragma warning disable S1172
 #pragma warning disable IDE0060
 	private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 #pragma warning restore IDE0060
+#pragma warning restore S1172
 	{
-		// Will implement this later
+		services.AddSingleton<CartService>();
 	}
 }

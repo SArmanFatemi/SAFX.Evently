@@ -3,7 +3,9 @@ using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Users.Application.Abstractions.Data;
 using Evently.Modules.Users.Domain.Users;
 using Evently.Modules.Users.Infrastructure.Database;
+using Evently.Modules.Users.Infrastructure.PublicApi;
 using Evently.Modules.Users.Infrastructure.Users;
+using Evently.Modules.Users.PublicApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -35,8 +37,12 @@ public static class UsersModule
                 .AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>())
                 .UseSnakeCaseNamingConvention());
 
-        services.AddScoped<IUserRepository, UserRepository>();
-
+        // Add Unit of work and repositories
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        
+        // Add public API
+        services.AddScoped<IUsersApi, UsersApi>();
     }
 }
