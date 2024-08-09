@@ -19,6 +19,7 @@ internal sealed class ChangeTicketTypePriceEndpoint : IEndpoint
 
 				return result.Match(Results.NoContent, Common.Presentation.ApiResults.ApiResults.Problem);
 			})
+			.RequireAuthorization()
 			.WithTags(ModulesConfigurations.TicketTypes.Tag);
 	}
 

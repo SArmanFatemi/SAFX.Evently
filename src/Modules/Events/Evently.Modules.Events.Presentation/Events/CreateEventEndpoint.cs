@@ -11,35 +11,36 @@ namespace Evently.Modules.Events.Presentation.Events;
 
 internal sealed class CreateEventEndpoint : IEndpoint
 {
-    public void Map(IEndpointRouteBuilder app)
-    {
-        app.MapPost(ModulesConfigurations.Events.BasePath, async (Request request, ISender sender) =>
-        {
-            Result<Guid> result = await sender.Send(new CreateEventCommand(
-                request.CategoryId,
-                request.Title,
-                request.Description,
-                request.Location,
-                request.StartsAtUtc,
-                request.EndsAtUtc));
+	public void Map(IEndpointRouteBuilder app)
+	{
+		app.MapPost(ModulesConfigurations.Events.BasePath, async (Request request, ISender sender) =>
+			{
+				Result<Guid> result = await sender.Send(new CreateEventCommand(
+					request.CategoryId,
+					request.Title,
+					request.Description,
+					request.Location,
+					request.StartsAtUtc,
+					request.EndsAtUtc));
 
-            return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
-        })
-        .WithTags(ModulesConfigurations.Events.Tag);
-    }
+				return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
+			})
+			.RequireAuthorization()
+			.WithTags(ModulesConfigurations.Events.Tag);
+	}
 
-    internal sealed class Request
-    {
-        public Guid CategoryId { get; init; }
+	internal sealed class Request
+	{
+		public Guid CategoryId { get; init; }
 
-        public string Title { get; init; }
+		public string Title { get; init; }
 
-        public string Description { get; init; }
+		public string Description { get; init; }
 
-        public string Location { get; init; }
+		public string Location { get; init; }
 
-        public DateTime StartsAtUtc { get; init; }
+		public DateTime StartsAtUtc { get; init; }
 
-        public DateTime? EndsAtUtc { get; init; }
-    }
+		public DateTime? EndsAtUtc { get; init; }
+	}
 }

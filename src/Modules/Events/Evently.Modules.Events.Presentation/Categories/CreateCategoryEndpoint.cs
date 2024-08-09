@@ -19,6 +19,7 @@ internal sealed class CreateCategoryEndpoint : IEndpoint
 
             return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
         })
+        .RequireAuthorization()
         .WithTags(ModulesConfigurations.Categories.Tag);
     }
 

@@ -11,14 +11,15 @@ namespace Evently.Modules.Events.Presentation.Events;
 
 internal sealed class GetEventEndpoint : IEndpoint
 {
-    public void Map(IEndpointRouteBuilder app)
-    {
-        app.MapGet(ModulesConfigurations.Events.BasePath + "/{id}", async (Guid id, ISender sender) =>
-        {
-            Result<EventResponse> result = await sender.Send(new GetEventQuery(id));
+	public void Map(IEndpointRouteBuilder app)
+	{
+		app.MapGet(ModulesConfigurations.Events.BasePath + "/{id}", async (Guid id, ISender sender) =>
+			{
+				Result<EventResponse> result = await sender.Send(new GetEventQuery(id));
 
-            return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
-        })
-        .WithTags(ModulesConfigurations.Events.Tag);
-    }
+				return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
+			})
+			.RequireAuthorization()
+			.WithTags(ModulesConfigurations.Events.Tag);
+	}
 }
