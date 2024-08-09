@@ -56,8 +56,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Modules.Ticketing.P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Modules.Ticketing.Infrastructure", "src\Modules\Ticketing\Evently.Modules.Ticketing.Infrastructure\Evently.Modules.Ticketing.Infrastructure.csproj", "{29D3E490-4747-4809-B79F-26622292B15B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Modules.Events.PublicApi", "src\Modules\Events\Evently.Modules.Events.PublicApi\Evently.Modules.Events.PublicApi.csproj", "{0A593C39-2BBA-4FA7-81D2-D7C652B91D77}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Modules.Users.IntegrationEvents", "src\Modules\Users\Evently.Modules.Users.IntegrationEvents\Evently.Modules.Users.IntegrationEvents.csproj", "{997B9E6B-177E-45C8-8EA2-8C091AFE4923}"
 EndProject
 Global
@@ -89,7 +87,6 @@ Global
 		{F881CAA3-9ABD-4F62-93A8-945EC130F323} = {0998B20E-BED1-4E46-BC10-DD69B132871F}
 		{4098D88F-3466-4531-902A-DC3492B702D8} = {0998B20E-BED1-4E46-BC10-DD69B132871F}
 		{29D3E490-4747-4809-B79F-26622292B15B} = {0998B20E-BED1-4E46-BC10-DD69B132871F}
-		{0A593C39-2BBA-4FA7-81D2-D7C652B91D77} = {8AE562E6-B434-4F4C-8E6E-00D93003D107}
 		{997B9E6B-177E-45C8-8EA2-8C091AFE4923} = {B0BCBF7F-6C52-428B-BDAA-D374EBCFB55E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -161,10 +158,6 @@ Global
 		{29D3E490-4747-4809-B79F-26622292B15B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29D3E490-4747-4809-B79F-26622292B15B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29D3E490-4747-4809-B79F-26622292B15B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A593C39-2BBA-4FA7-81D2-D7C652B91D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A593C39-2BBA-4FA7-81D2-D7C652B91D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A593C39-2BBA-4FA7-81D2-D7C652B91D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A593C39-2BBA-4FA7-81D2-D7C652B91D77}.Release|Any CPU.Build.0 = Release|Any CPU
 		{997B9E6B-177E-45C8-8EA2-8C091AFE4923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{997B9E6B-177E-45C8-8EA2-8C091AFE4923}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{997B9E6B-177E-45C8-8EA2-8C091AFE4923}.Release|Any CPU.ActiveCfg = Release|Any CPU
