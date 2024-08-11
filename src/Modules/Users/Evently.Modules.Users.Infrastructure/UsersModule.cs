@@ -1,8 +1,10 @@
-﻿using Evently.Common.Infrastructure.Interceptors;
+﻿using Evently.Common.Application.Authorization;
+using Evently.Common.Infrastructure.Interceptors;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Users.Application.Abstractions.Data;
 using Evently.Modules.Users.Application.Abstractions.Identity;
 using Evently.Modules.Users.Domain.Users;
+using Evently.Modules.Users.Infrastructure.Authorization;
 using Evently.Modules.Users.Infrastructure.Database;
 using Evently.Modules.Users.Infrastructure.Identity;
 using Evently.Modules.Users.Infrastructure.Users;
@@ -16,47 +18,49 @@ namespace Evently.Modules.Users.Infrastructure;
 
 public static class UsersModule
 {
-    public static IServiceCollection AddUsersModule(
-        this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddInfrastructure(configuration);
+	public static IServiceCollection AddUsersModule(
+		this IServiceCollection services,
+		IConfiguration configuration)
+	{
+		services.AddInfrastructure(configuration);
 
-        services.AddEndpoints(Presentation.AssemblyReference.Assembly);
+		services.AddEndpoints(Presentation.AssemblyReference.Assembly);
 
-        return services;
-    }
+		return services;
+	}
 
-    private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-    {
-	    services.Configure<KeyCloakOptions>(configuration.GetSection("Users:KeyCloak"));
+	private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.AddScoped<IPermissionService, PermissionService>();
 
-	    services.AddTransient<KeyCloakAuthDelegatingHandler>();
+		services.Configure<KeyCloakOptions>(configuration.GetSection("Users:KeyCloak"));
 
-	    services
-		    .AddHttpClient<KeyCloakClient>((serviceProvider, httpClient) =>
-		    {
-			    KeyCloakOptions keyCloakOptions = serviceProvider
-				    .GetRequiredService<IOptions<KeyCloakOptions>>().Value;
+		services.AddTransient<KeyCloakAuthDelegatingHandler>();
 
-			    httpClient.BaseAddress = new Uri(keyCloakOptions.AdminUrl);
-		    })
-		    .AddHttpMessageHandler<KeyCloakAuthDelegatingHandler>();
+		services
+			.AddHttpClient<KeyCloakClient>((serviceProvider, httpClient) =>
+			{
+				KeyCloakOptions keyCloakOptions = serviceProvider
+					.GetRequiredService<IOptions<KeyCloakOptions>>().Value;
 
-	    services.AddTransient<IIdentityProviderService, IdentityProviderService>();
-	    
-        services.AddDbContext<UsersDbContext>((sp, options) =>
-            options
-                .UseNpgsql(
-                    configuration.GetConnectionString("Database"),
-                    npgsqlOptions => npgsqlOptions
-                        .MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Users))
-                .AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>())
-                .UseSnakeCaseNamingConvention());
+				httpClient.BaseAddress = new Uri(keyCloakOptions.AdminUrl);
+			})
+			.AddHttpMessageHandler<KeyCloakAuthDelegatingHandler>();
 
-        // Add Unit of work and repositories
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
+		services.AddTransient<IIdentityProviderService, IdentityProviderService>();
 
-        services.AddScoped<IUserRepository, UserRepository>();
-    }
+		services.AddDbContext<UsersDbContext>((sp, options) =>
+			options
+				.UseNpgsql(
+					configuration.GetConnectionString("Database"),
+					npgsqlOptions => npgsqlOptions
+						.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Users))
+				.AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>())
+				.UseSnakeCaseNamingConvention());
+
+		// Add Unit of work and repositories
+		services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
+
+		services.AddScoped<IUserRepository, UserRepository>();
+	}
 }

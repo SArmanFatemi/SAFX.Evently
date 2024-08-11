@@ -4,45 +4,52 @@ namespace Evently.Modules.Users.Domain.Users;
 
 public sealed class User : Entity
 {
-    private User()
-    {
-    }
+	private readonly List<Role> _roles = [];
 
-    public Guid Id { get; private set; }
+	private User()
+	{
+	}
 
-    public string Email { get; private set; }
+	public Guid Id { get; private set; }
 
-    public string FirstName { get; private set; }
+	public string Email { get; private set; }
 
-    public string LastName { get; private set; }
+	public string FirstName { get; private set; }
 
-    public string IdentityId { get; private set; }
-    public static User Create(string email, string firstName, string lastName, string identityId)
-    {
-        var user = new User
-        {
-            Id = Guid.NewGuid(),
-            Email = email,
-            FirstName = firstName,
-            LastName = lastName,
-            IdentityId = identityId,
-        };
+	public string LastName { get; private set; }
 
-        user.Raise(new UserRegisteredDomainEvent(user.Id));
+	public string IdentityId { get; private set; }
 
-        return user;
-    }
+	public IReadOnlyCollection<Role> Roles => _roles.ToList();
 
-    public void Update(string firstName, string lastName)
-    {
-        if (FirstName == firstName && LastName == lastName)
-        {
-            return;
-        }
+	public static User Create(string email, string firstName, string lastName, string identityId)
+	{
+		var user = new User
+		{
+			Id = Guid.NewGuid(),
+			Email = email,
+			FirstName = firstName,
+			LastName = lastName,
+			IdentityId = identityId,
+		};
 
-        FirstName = firstName;
-        LastName = lastName;
+		user._roles.Add(Role.Member);
 
-        Raise(new UserProfileUpdatedDomainEvent(Id, FirstName, LastName));
-    }
+		user.Raise(new UserRegisteredDomainEvent(user.Id));
+
+		return user;
+	}
+
+	public void Update(string firstName, string lastName)
+	{
+		if (FirstName == firstName && LastName == lastName)
+		{
+			return;
+		}
+
+		FirstName = firstName;
+		LastName = lastName;
+
+		Raise(new UserProfileUpdatedDomainEvent(Id, FirstName, LastName));
+	}
 }
