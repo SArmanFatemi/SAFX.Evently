@@ -32,9 +32,9 @@ internal sealed class GetCategoriesEndpoint : IEndpoint
 	            await cacheService.SetAsync("categories", result.Value);
             }
 
-            return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
+            return result.Match(Results.Ok, ApiResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.GetCategories)
         .WithTags(ModulesConfigurations.Categories.Tag);
     }
 }

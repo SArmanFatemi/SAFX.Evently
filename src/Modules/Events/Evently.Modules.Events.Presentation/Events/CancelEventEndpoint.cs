@@ -17,8 +17,9 @@ internal sealed class CancelEventEndpoint : IEndpoint
         {
             Result result = await sender.Send(new CancelEventCommand(id));
 
-            return result.Match(Results.NoContent, Common.Presentation.ApiResults.ApiResults.Problem);
+            return result.Match(Results.NoContent, ApiResults.Problem);
         })
+        .RequireAuthorization(Permissions.ModifyEvents)
         .WithTags(ModulesConfigurations.Events.Tag);
     }
 }

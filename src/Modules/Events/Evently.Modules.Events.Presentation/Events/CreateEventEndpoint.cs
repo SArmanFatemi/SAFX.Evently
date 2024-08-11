@@ -23,9 +23,9 @@ internal sealed class CreateEventEndpoint : IEndpoint
 					request.StartsAtUtc,
 					request.EndsAtUtc));
 
-				return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
+				return result.Match(Results.Ok, ApiResults.Problem);
 			})
-			.RequireAuthorization()
+			.RequireAuthorization(Permissions.ModifyEvents)
 			.WithTags(ModulesConfigurations.Events.Tag);
 	}
 

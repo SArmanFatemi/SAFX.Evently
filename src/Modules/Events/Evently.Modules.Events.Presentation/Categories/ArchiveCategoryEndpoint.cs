@@ -17,9 +17,9 @@ internal sealed class ArchiveCategoryEndpoint : IEndpoint
         {
             Result result = await sender.Send(new ArchiveCategoryCommand(id));
 
-            return result.Match(() => Results.Ok(), Common.Presentation.ApiResults.ApiResults.Problem);
+            return result.Match(() => Results.Ok(), ApiResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.ModifyCategories)
         .WithTags(ModulesConfigurations.Categories.Tag);
     }
 }

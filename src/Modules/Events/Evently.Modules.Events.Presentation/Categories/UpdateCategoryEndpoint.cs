@@ -17,9 +17,9 @@ internal sealed class UpdateCategoryEndpoint : IEndpoint
         {
             Result result = await sender.Send(new UpdateCategoryCommand(id, request.Name));
 
-            return result.Match(() => Results.Ok(), Common.Presentation.ApiResults.ApiResults.Problem);
+            return result.Match(() => Results.Ok(), ApiResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.ModifyCategories)
         .WithTags(ModulesConfigurations.Categories.Tag);
     }
 

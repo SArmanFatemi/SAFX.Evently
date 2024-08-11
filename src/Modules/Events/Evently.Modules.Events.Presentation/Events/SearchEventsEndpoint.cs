@@ -24,9 +24,9 @@ internal sealed class SearchEventsEndpoint : IEndpoint
             Result<SearchEventsResponse> result = await sender.Send(
                 new SearchEventsQuery(categoryId, startDate, endDate, page, pageSize));
 
-            return result.Match(Results.Ok, Common.Presentation.ApiResults.ApiResults.Problem);
+            return result.Match(Results.Ok, ApiResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.SearchEvents)
         .WithTags(ModulesConfigurations.Events.Tag);
     }
 }
