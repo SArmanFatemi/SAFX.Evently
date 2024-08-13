@@ -19,10 +19,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-	options.CustomSchemaIds(t => t.FullName?.Replace("+", "."));
-});
+builder.Services.AddSwaggerDocumentation();
 
 builder.Services.AddApplication([
 	Evently.Modules.Events.Application.AssemblyReference.Assembly,
