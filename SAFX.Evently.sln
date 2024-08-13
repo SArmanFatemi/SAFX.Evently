@@ -90,6 +90,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0A5FBA3C-8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Modules.Ticketing.ArchitectureTests", "src\Modules\Ticketing\test\Evently.Modules.Ticketing.ArchitectureTests\Evently.Modules.Ticketing.ArchitectureTests.csproj", "{36438C9B-574F-42BD-AACB-4C519894F559}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C0E722D4-1A8D-4531-8EFC-AD96085C5112}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Modules.Events.ArchitectureTests", "src\Modules\Events\test\Evently.Modules.Events.ArchitectureTests\Evently.Modules.Events.ArchitectureTests.csproj", "{E28D8000-F5E9-4A62-A0A6-06C142C19BF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +139,8 @@ Global
 		{10DABC47-E98F-4367-872A-D7D97F0C1630} = {A9C323AA-8D4F-40D4-AE40-CB52AEC6CF57}
 		{0A5FBA3C-8380-46EE-A59E-C3CB6167F53F} = {0998B20E-BED1-4E46-BC10-DD69B132871F}
 		{36438C9B-574F-42BD-AACB-4C519894F559} = {0A5FBA3C-8380-46EE-A59E-C3CB6167F53F}
+		{C0E722D4-1A8D-4531-8EFC-AD96085C5112} = {8AE562E6-B434-4F4C-8E6E-00D93003D107}
+		{E28D8000-F5E9-4A62-A0A6-06C142C19BF9} = {C0E722D4-1A8D-4531-8EFC-AD96085C5112}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5A6CFBAC-04A9-4C16-8D2B-735C5B290ABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -253,5 +259,9 @@ Global
 		{36438C9B-574F-42BD-AACB-4C519894F559}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36438C9B-574F-42BD-AACB-4C519894F559}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36438C9B-574F-42BD-AACB-4C519894F559}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E28D8000-F5E9-4A62-A0A6-06C142C19BF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E28D8000-F5E9-4A62-A0A6-06C142C19BF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E28D8000-F5E9-4A62-A0A6-06C142C19BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E28D8000-F5E9-4A62-A0A6-06C142C19BF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
