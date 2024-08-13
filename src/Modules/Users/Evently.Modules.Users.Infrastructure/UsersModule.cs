@@ -40,10 +40,10 @@ public static class UsersModule
 		services
 			.AddHttpClient<KeyCloakClient>((serviceProvider, httpClient) =>
 			{
-				KeyCloakOptions keyCloakOptions = serviceProvider
+				KeyCloakOptions keycloakOptions = serviceProvider
 					.GetRequiredService<IOptions<KeyCloakOptions>>().Value;
 
-				httpClient.BaseAddress = new Uri(keyCloakOptions.AdminUrl);
+				httpClient.BaseAddress = new Uri(keycloakOptions.AdminUrl);
 			})
 			.AddHttpMessageHandler<KeyCloakAuthDelegatingHandler>();
 

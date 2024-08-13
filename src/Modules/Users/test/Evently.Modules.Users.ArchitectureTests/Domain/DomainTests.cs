@@ -13,6 +13,8 @@ public class DomainTests : BaseTest
     {
         Types.InAssembly(DomainAssembly)
             .That()
+            .ImplementInterface(typeof(IDomainEvent))
+            .Or()
             .Inherit(typeof(DomainEvent))
             .Should()
             .BeSealed()
@@ -25,6 +27,8 @@ public class DomainTests : BaseTest
     {
         Types.InAssembly(DomainAssembly)
             .That()
+            .ImplementInterface(typeof(IDomainEvent))
+            .Or()
             .Inherit(typeof(DomainEvent))
             .Should()
             .HaveNameEndingWith("DomainEvent")
@@ -43,8 +47,8 @@ public class DomainTests : BaseTest
         var failingTypes = new List<Type>();
         foreach (Type entityType in entityTypes)
         {
-            ConstructorInfo[] constructors = entityType
-	            .GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
+            ConstructorInfo[] constructors = entityType.GetConstructors(BindingFlags.NonPublic |
+                                                                        BindingFlags.Instance);
 
             if (!constructors.Any(c => c.IsPrivate && c.GetParameters().Length == 0))
             {
@@ -66,8 +70,8 @@ public class DomainTests : BaseTest
         var failingTypes = new List<Type>();
         foreach (Type entityType in entityTypes)
         {
-            ConstructorInfo[] constructors = entityType
-	            .GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+            ConstructorInfo[] constructors = entityType.GetConstructors(BindingFlags.Public |
+                                                                        BindingFlags.Instance);
 
             if (constructors.Any())
             {
