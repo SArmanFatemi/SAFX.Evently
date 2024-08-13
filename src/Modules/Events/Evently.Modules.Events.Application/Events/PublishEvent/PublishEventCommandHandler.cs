@@ -7,34 +7,29 @@ using Evently.Modules.Events.Domain.TicketTypes;
 namespace Evently.Modules.Events.Application.Events.PublishEvent;
 
 internal sealed class PublishEventCommandHandler(
-    IEventRepository eventRepository,
-    ITicketTypeRepository ticketTypeRepository,
-    IUnitOfWork unitOfWork)
-    : ICommandHandler<PublishEventCommand>
+	IEventRepository eventRepository,
+	ITicketTypeRepository ticketTypeRepository,
+	IUnitOfWork unitOfWork)
+	: ICommandHandler<PublishEventCommand>
 {
-    public async Task<Result> Handle(PublishEventCommand request, CancellationToken cancellationToken)
-    {
-        Event? @event = await eventRepository.GetAsync(request.EventId, cancellationToken);
+	public async Task<Result> Handle(PublishEventCommand request, CancellationToken cancellationToken)
+	{
+		Event? @event = await eventRepository.GetAsync(request.EventId, cancellationToken);
 
-        if (@event is null)
-        {
-            return Result.Failure(EventErrors.NotFound(request.EventId));
-        }
+		if (@event is null)
+		{
+			return Result.Failure(EventErrors.NotFound(request.EventId));
+		}
 
-        if (!await ticketTypeRepository.ExistsAsync(@event.Id, cancellationToken))
-        {
-            return Result.Failure(EventErrors.NoTicketsFound);
-        }
+		if (!await ticketTypeRepository.ExistsAsync(@event.Id, cancellationToken))
+		{
+			return Result.Failure(EventErrors.NoTicketsFound);
+		}
 
-        Result result = @event.Publish();
+		@event.Publish();
 
-        if (result.IsFailure)
-        {
-            return Result.Failure(result.Error);
-        }
+		await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        await unitOfWork.SaveChangesAsync(cancellationToken);
-
-        return Result.Success();
-    }
+		return Result.Success();
+	}
 }
