@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Evently.ArchitectureTests.Abstractions;
+using Evently.Modules.Users.Domain;
 using NetArchTest.Rules;
 
 namespace Evently.ArchitectureTests.Layers;
@@ -10,18 +11,16 @@ public class ModuleTests : BaseTest
     public void UsersModule_ShouldNotHaveDependencyOn_AnyOtherModule()
     {
         string[] otherModules = [EventsNamespace, TicketingNamespace, AttendanceNamespace];
-        string[] integrationEventsModules =
-        [
+        string[] integrationEventsModules = [
             EventsIntegrationEventsNamespace,
             TicketingIntegrationEventsNamespace,
-            AttendanceIntegrationEventsNamespace
-        ];
+            AttendanceIntegrationEventsNamespace];
 
         List<Assembly> usersAssemblies =
         [
+	        AssemblyReference.Assembly,
 	        Modules.Users.Application.AssemblyReference.Assembly,
-            Modules.Users.Application.AssemblyReference.Assembly,
-            Modules.Users.Presentation.AssemblyReference.Assembly,
+	        Modules.Users.Presentation.AssemblyReference.Assembly,
 	        Modules.Users.Infrastructure.AssemblyReference.Assembly
         ];
 
@@ -38,12 +37,10 @@ public class ModuleTests : BaseTest
     public void EventsModule_ShouldNotHaveDependencyOn_AnyOtherModule()
     {
         string[] otherModules = [UsersNamespace, TicketingNamespace, AttendanceNamespace];
-        string[] integrationEventsModules =
-        [
+        string[] integrationEventsModules = [
             UsersIntegrationEventsNamespace,
             TicketingIntegrationEventsNamespace,
-            AttendanceIntegrationEventsNamespace
-        ];
+            AttendanceIntegrationEventsNamespace];
 
         List<Assembly> eventsAssemblies =
         [
@@ -65,13 +62,11 @@ public class ModuleTests : BaseTest
     [Fact]
     public void TicketingModule_ShouldNotHaveDependencyOn_AnyOtherModule()
     {
-        string[] otherModules = [EventsNamespace, UsersNamespace, AttendanceNamespace];
-        string[] integrationEventsModules =
-        [
-            EventsIntegrationEventsNamespace,
+        string[] otherModules = [UsersNamespace, EventsNamespace, AttendanceNamespace];
+        string[] integrationEventsModules = [
             UsersIntegrationEventsNamespace,
-            AttendanceIntegrationEventsNamespace
-        ];
+            EventsIntegrationEventsNamespace,
+            AttendanceIntegrationEventsNamespace];
 
         List<Assembly> ticketingAssemblies =
         [
@@ -93,19 +88,17 @@ public class ModuleTests : BaseTest
     [Fact]
     public void AttendanceModule_ShouldNotHaveDependencyOn_AnyOtherModule()
     {
-        string[] otherModules = [UsersNamespace, TicketingNamespace, EventsNamespace];
-        string[] integrationEventsModules =
-        [
+        string[] otherModules = [UsersNamespace, EventsNamespace, TicketingNamespace];
+        string[] integrationEventsModules = [
             UsersIntegrationEventsNamespace,
-            TicketingIntegrationEventsNamespace,
-            EventsIntegrationEventsNamespace
-        ];
+            EventsIntegrationEventsNamespace,
+            TicketingIntegrationEventsNamespace];
 
         List<Assembly> attendanceAssemblies =
         [
 	        Modules.Attendance.Domain.AssemblyReference.Assembly,
-	        Modules.Attendance.Application.AssemblyReference.Assembly,
-	        Modules.Attendance.Presentation.AssemblyReference.Assembly,
+            Modules.Attendance.Application.AssemblyReference.Assembly,
+            Modules.Attendance.Presentation.AssemblyReference.Assembly,
 	        Modules.Attendance.Infrastructure.AssemblyReference.Assembly
         ];
 
