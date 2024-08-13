@@ -1,4 +1,5 @@
-﻿using Evently.Common.Application.Caching;
+﻿using Dapper;
+using Evently.Common.Application.Caching;
 using Evently.Common.Application.Clock;
 using Evently.Common.Application.Data;
 using Evently.Common.Application.EventBus;
@@ -18,55 +19,59 @@ namespace Evently.Common.Infrastructure;
 
 public static class InfrastructureConfiguration
 {
-	public static IServiceCollection AddInfrastructure(
-		this IServiceCollection services,
-		Action<IRegistrationConfigurator>[] moduleConfigurationConsumers,
-		string databaseConnectionString,
-		string redisConnectionString)
-	{
-		services.AddAuthenticationInternal();
-		services.AddAuthorizationInternal();
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        Action<IRegistrationConfigurator>[] moduleConfigureConsumers,
+        string databaseConnectionString,
+        string redisConnectionString)
+    {
+        services.AddAuthenticationInternal();
 
-		NpgsqlDataSource npgsqlDataSource = new NpgsqlDataSourceBuilder(databaseConnectionString).Build();
-		services.TryAddSingleton(npgsqlDataSource);
+        services.AddAuthorizationInternal();
 
-		services.TryAddScoped<IDbConnectionFactory, DbConnectionFactory>();
+        services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-		services.TryAddSingleton<PublishDomainEventsInterceptor>();
+        services.TryAddSingleton<IEventBus, EventBus.EventBus>();
 
-		services.TryAddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.TryAddSingleton<PublishDomainEventsInterceptor>();
 
-		try
-		{
-			IConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
-			services.TryAddSingleton(connectionMultiplexer);
+        NpgsqlDataSource npgsqlDataSource = new NpgsqlDataSourceBuilder(databaseConnectionString).Build();
+        services.TryAddSingleton(npgsqlDataSource);
 
-			services.AddStackExchangeRedisCache(options =>
-				options.ConnectionMultiplexerFactory = () => Task.FromResult(connectionMultiplexer));
-		}
-		catch
-		{
-			services.AddDistributedMemoryCache();
-		}
+        services.TryAddScoped<IDbConnectionFactory, DbConnectionFactory>();
 
-		services.TryAddSingleton<ICacheService, CacheService>();
+        SqlMapper.AddTypeHandler(new GenericArrayHandler<string>());
 
-		services.TryAddSingleton<IEventBus, EventBus.EventBus>();
-		services.AddMassTransit(configure =>
-		{
-			foreach (Action<IRegistrationConfigurator> moduleConfigurationConsumer in moduleConfigurationConsumers)
-			{
-				moduleConfigurationConsumer(configure);
-			}
+        try
+        {
+            IConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
+            services.TryAddSingleton(connectionMultiplexer);
 
-			configure.SetKebabCaseEndpointNameFormatter();
+            services.AddStackExchangeRedisCache(options =>
+                options.ConnectionMultiplexerFactory = () => Task.FromResult(connectionMultiplexer));
+        }
+        catch
+        {
+            services.AddDistributedMemoryCache();
+        }
 
-			configure.UsingInMemory((context, cfg) =>
-			{
-				cfg.ConfigureEndpoints(context);
-			});
-		});
+        services.TryAddSingleton<ICacheService, CacheService>();
 
-		return services;
-	}
+        services.AddMassTransit(configure =>
+        {
+            foreach (Action<IRegistrationConfigurator> configureConsumers in moduleConfigureConsumers)
+            {
+                configureConsumers(configure);
+            }
+
+            configure.SetKebabCaseEndpointNameFormatter();
+
+            configure.UsingInMemory((context, cfg) =>
+            {
+                cfg.ConfigureEndpoints(context);
+            });
+        });
+
+        return services;
+    }
 }
