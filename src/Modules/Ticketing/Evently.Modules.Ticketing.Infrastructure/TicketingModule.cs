@@ -16,8 +16,9 @@ using Evently.Modules.Ticketing.Infrastructure.Events;
 using Evently.Modules.Ticketing.Infrastructure.Orders;
 using Evently.Modules.Ticketing.Infrastructure.Payments;
 using Evently.Modules.Ticketing.Infrastructure.Tickets;
-using Evently.Modules.Ticketing.Presentation;
-using Evently.Modules.Ticketing.Presentation.Consumers;
+using Evently.Modules.Ticketing.Presentation.Customers;
+using Evently.Modules.Ticketing.Presentation.Events;
+using Evently.Modules.Ticketing.Presentation.TicketTypes;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -28,45 +29,46 @@ namespace Evently.Modules.Ticketing.Infrastructure;
 
 public static class TicketingModule
 {
-	public static IServiceCollection AddTicketingModule(
-		this IServiceCollection services,
-		IConfiguration configuration)
-	{
-		services.AddInfrastructure(configuration);
+    public static IServiceCollection AddTicketingModule(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddInfrastructure(configuration);
 
-		services.AddEndpoints(AssemblyReference.Assembly);
+        services.AddEndpoints(Presentation.AssemblyReference.Assembly);
 
-		return services;
-	}
+        return services;
+    }
 
-	public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
-	{
-		registrationConfigurator.AddConsumer<UserRegisteredIntegrationEventConsumer>();
-	}
+    public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+    {
+        registrationConfigurator.AddConsumer<UserRegisteredIntegrationEventConsumer>();
+        registrationConfigurator.AddConsumer<UserProfileUpdatedIntegrationEventConsumer>();
+        registrationConfigurator.AddConsumer<EventPublishedIntegrationEventConsumer>();
+        registrationConfigurator.AddConsumer<TicketTypePriceChangedIntegrationEventConsumer>();
+    }
 
-	private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-	{
-		services.AddDbContext<TicketingDbContext>((sp, options) =>
-			options
-				.UseNpgsql(
-					configuration.GetConnectionString("Database"),
-					npgsqlOptions => npgsqlOptions
-						.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Ticketing))
-				.AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>())
-				.UseSnakeCaseNamingConvention());
+    private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<TicketingDbContext>((sp, options) =>
+            options
+                .UseNpgsql(
+                    configuration.GetConnectionString("Database"),
+                    npgsqlOptions => npgsqlOptions
+                        .MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Ticketing))
+                .AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>())
+                .UseSnakeCaseNamingConvention());
 
-		services.AddScoped<ICustomerRepository, CustomerRepository>();
-		services.AddScoped<IEventRepository, EventRepository>();
-		services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
-		services.AddScoped<IOrderRepository, OrderRepository>();
-		services.AddScoped<ITicketRepository, TicketRepository>();
-		services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IEventRepository, EventRepository>();
+        services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<ITicketRepository, TicketRepository>();
+        services.AddScoped<IPaymentRepository, PaymentRepository>();
 
-		services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<TicketingDbContext>());
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<TicketingDbContext>());
 
-		services.AddSingleton<CartService>();
-		services.AddSingleton<IPaymentService, PaymentService>();
-		
-		services.AddScoped<ICustomerContext, CustomerContext>();
-	}
+        services.AddSingleton<CartService>();
+        services.AddSingleton<IPaymentService, PaymentService>();
+
+        services.AddScoped<ICustomerContext, CustomerContext>();
+    }
 }
