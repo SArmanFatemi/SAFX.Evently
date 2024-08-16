@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Evently.Common.Infrastructure.Outbox;
 using Evently.Modules.Attendance.Application.Abstractions.Data;
 using Evently.Modules.Attendance.Domain.Attendees;
 using Evently.Modules.Attendance.Domain.Events;
@@ -21,5 +22,6 @@ public sealed class AttendanceDbContext(DbContextOptions<AttendanceDbContext> op
         modelBuilder.HasDefaultSchema(Schemas.Attendance);
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
     }
 }

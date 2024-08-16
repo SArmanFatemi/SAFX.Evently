@@ -1,4 +1,4 @@
-﻿using Evently.Common.Infrastructure.Interceptors;
+﻿using Evently.Common.Infrastructure.Outbox;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Attendance.Application.Abstractions.Authentication;
 using Evently.Modules.Attendance.Application.Abstractions.Data;
@@ -9,8 +9,8 @@ using Evently.Modules.Attendance.Infrastructure.Attendees;
 using Evently.Modules.Attendance.Infrastructure.Authentication;
 using Evently.Modules.Attendance.Infrastructure.Database;
 using Evently.Modules.Attendance.Infrastructure.Events;
+using Evently.Modules.Attendance.Infrastructure.Outbox;
 using Evently.Modules.Attendance.Infrastructure.Tickets;
-using Evently.Modules.Attendance.Presentation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -39,15 +39,18 @@ public static class AttendanceModule
 					configuration.GetConnectionString("Database"),
 					npgsqlOptions => npgsqlOptions
 						.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Attendance))
-				.UseSnakeCaseNamingConvention()
-				.AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>()));
+				.AddInterceptors(sp.GetRequiredService<InsertOutboxMessageInterceptor>())
+				.UseSnakeCaseNamingConvention());
 
+		// Add Unit of work and repositories
 		services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AttendanceDbContext>());
-
 		services.AddScoped<IAttendeeRepository, AttendeeRepository>();
 		services.AddScoped<IEventRepository, EventRepository>();
 		services.AddScoped<ITicketRepository, TicketRepository>();
 
 		services.AddScoped<IAttendanceContext, AttendanceContext>();
+		
+		services.Configure<OutboxOptions>(configuration.GetSection("Attendance:Outbox"));
+		services.ConfigureOptions<ConfigureProcessOutboxJob>();
 	}
 }

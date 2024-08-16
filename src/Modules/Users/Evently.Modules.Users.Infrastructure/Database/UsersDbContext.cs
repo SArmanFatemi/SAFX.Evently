@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Evently.Common.Infrastructure.Outbox;
 using Evently.Modules.Users.Application.Abstractions.Data;
 using Evently.Modules.Users.Domain.Users;
 using Microsoft.EntityFrameworkCore;
@@ -14,5 +15,6 @@ public sealed class UsersDbContext(DbContextOptions<UsersDbContext> options) : D
         modelBuilder.HasDefaultSchema(Schemas.Users);
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
     }
 }

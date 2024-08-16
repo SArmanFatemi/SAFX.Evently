@@ -1,4 +1,5 @@
 using System.Reflection;
+using Evently.Common.Infrastructure.Outbox;
 using Evently.Modules.Events.Application.Abstractions.Data;
 using Evently.Modules.Events.Domain.Categories;
 using Evently.Modules.Events.Domain.Events;
@@ -20,5 +21,6 @@ public sealed class EventsDbContext(DbContextOptions<EventsDbContext> options) :
 		modelBuilder.HasDefaultSchema(Schemas.Events);
 		
 		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+		modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
 	}
 }
