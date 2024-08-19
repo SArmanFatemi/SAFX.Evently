@@ -6,18 +6,18 @@ using Newtonsoft.Json;
 
 namespace Evently.Common.Infrastructure.Outbox;
 
-public sealed class InsertOutboxMessageInterceptor : SaveChangesInterceptor
+public sealed class InsertOutboxMessagesInterceptor : SaveChangesInterceptor
 {
 	public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
 		DbContextEventData eventData,
 		InterceptionResult<int> result,
-		CancellationToken cancellationToken = new CancellationToken())
+		CancellationToken cancellationToken = default)
 	{
 		if (eventData.Context is not null)
 		{
 			InsertOutboxMessages(eventData.Context);
 		}
-		
+
 		return await base.SavingChangesAsync(eventData, result, cancellationToken);
 	}
 
@@ -29,11 +29,11 @@ public sealed class InsertOutboxMessageInterceptor : SaveChangesInterceptor
 			.Select(entry => entry.Entity)
 			.SelectMany(entity =>
 			{
-				IReadOnlyCollection<IDomainEvent> domainEvents = entity.DomainEvents.ToList();
+				IReadOnlyCollection<IDomainEvent> domainEvents = [.. entity.DomainEvents];
 
 				entity.ClearDomainEvents();
 
-				 return domainEvents;
+				return domainEvents;
 			})
 			.Select(domainEvent => new OutboxMessage
 			{
@@ -43,7 +43,7 @@ public sealed class InsertOutboxMessageInterceptor : SaveChangesInterceptor
 				OccurredOnUtc = domainEvent.OccurredOnUtc
 			})
 			.ToList();
-		
+
 		context.Set<OutboxMessage>().AddRange(outboxMessages);
 	}
 }

@@ -11,16 +11,18 @@ namespace Evently.Modules.Events.Infrastructure.Database;
 public sealed class EventsDbContext(DbContextOptions<EventsDbContext> options) : DbContext(options), IUnitOfWork
 {
 	internal DbSet<Event> Events { get; set; } = null!;
-	
+
 	internal DbSet<Category> Categories { get; set; } = null!;
-	
+
 	internal DbSet<TicketType> TicketTypes { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.HasDefaultSchema(Schemas.Events);
-		
+
 		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
 		modelBuilder.ApplyConfiguration(new OutboxMessageConfiguration());
+		modelBuilder.ApplyConfiguration(new OutboxMessageConsumerConfiguration());
 	}
 }
